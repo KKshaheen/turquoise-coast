@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Turquoise Coast — A Family Escape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea:#0c3f49;--sea-deep:#082b32;--lagoon:#1fb3a6;--lagoon-soft:#7fd6cd;
+    --sand:#efe6d4;--paper:#fbf8f1;--ink:#142d31;--ink-soft:#3f5a5e;--coral:#e8714c;
+    --line:rgba(20,45,49,.12);--shadow:0 18px 50px -22px rgba(8,43,50,.55);--maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.05;letter-spacing:-.01em}
+  a{color:inherit}
+  .scene{width:100%;height:100%;display:block}
+  /* real photo overlays (sit on top of the illustration; if a photo fails, the illustration shows) */
+  .hero .bg .scene,.hero .bg .photo{position:absolute;inset:0;width:100%;height:100%}
+  .hero .bg .photo{object-fit:cover}
+  .banner .scene,.banner .photo{position:absolute;inset:0;width:100%;height:100%}
+  .banner .photo{object-fit:cover;z-index:1}
+  .banner .cap{z-index:2}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:40;background:rgba(251,248,241,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:9px;font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem}
+  .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--lagoon);box-shadow:0 0 0 4px rgba(31,179,166,.18)}
+  .nav-links{display:flex;gap:22px;font-size:.83rem;font-weight:600}
+  .nav-links a{text-decoration:none;color:var(--ink-soft);white-space:nowrap;transition:color .2s}
+  .nav-links a:hover{color:var(--lagoon)}
+  @media(max-width:720px){.nav-links{display:none}}
+
+  /* hero */
+  .hero{position:relative;min-height:min(84vh,700px);display:flex;align-items:flex-end;color:#fff}
+  .hero .bg{position:absolute;inset:0}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,43,50,.05) 0%,rgba(8,43,50,.02) 40%,rgba(8,43,50,.72) 100%);z-index:2}
+  .hero-inner{position:relative;z-index:3;max-width:var(--maxw);margin:0 auto;width:100%;padding:0 22px 52px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--lagoon-soft)}
+  .hero h1{font-size:clamp(2.6rem,8vw,5.2rem);margin:.28em 0 .2em;font-weight:600}
+  .hero h1 em{font-style:italic;color:var(--lagoon-soft)}
+  .hero p{max-width:46ch;font-size:clamp(1rem,2.4vw,1.18rem);color:rgba(255,255,255,.92)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);padding:7px 13px;border-radius:999px;font-size:.8rem;font-weight:600}
+
+  .shore{display:block;width:100%;height:34px;color:var(--lagoon)}
+
+  section{max-width:var(--maxw);margin:0 auto;padding:64px 22px}
+  .sec-head{max-width:62ch;margin-bottom:34px}
+  .sec-eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lagoon);display:flex;align-items:center;gap:9px}
+  .sec-eyebrow::before{content:"";width:26px;height:1.5px;background:var(--lagoon)}
+  h2{font-size:clamp(1.9rem,5vw,2.9rem);margin:.32em 0 .35em}
+  .lede{font-size:1.06rem;color:var(--ink-soft)}
+
+  .reassure{display:flex;gap:18px;align-items:flex-start;background:linear-gradient(135deg,#0c3f49,#10565c);color:#eafaf8;border-radius:20px;padding:24px 26px;box-shadow:var(--shadow);margin-top:8px}
+  .reassure .ic{flex:0 0 auto;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:rgba(127,214,205,.18);border:1px solid rgba(127,214,205,.3)}
+  .reassure h3{font-size:1.15rem;color:#fff;margin-bottom:5px;font-weight:600}
+  .reassure p{font-size:.95rem;color:rgba(234,250,248,.86)}
+
+  .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+  .gcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+  .gcard .k{font-family:'Fraunces',serif;font-size:1.7rem;color:var(--sea);font-weight:600;line-height:1}
+  .gcard .l{font-size:.82rem;color:var(--ink-soft);margin-top:7px}
+  @media(max-width:760px){.glance{grid-template-columns:repeat(2,1fr)}}
+
+  .toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px;gap:4px;box-shadow:0 8px 20px -16px rgba(8,43,50,.5)}
+  .toggle button{font:inherit;font-weight:600;font-size:.92rem;border:0;background:transparent;color:var(--ink-soft);padding:10px 20px;border-radius:999px;cursor:pointer;transition:all .25s}
+  .toggle button.on{background:var(--sea);color:#fff}
+  .lane{display:none;margin-top:34px}
+  .lane.show{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .stays{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:840px){.stays{grid-template-columns:1fr}}
+  .stay{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .stay.feature{grid-column:1/-1;display:grid;grid-template-columns:1.05fr 1fr}
+  @media(max-width:700px){.stay.feature{grid-template-columns:1fr}}
+  .banner{position:relative;min-height:190px}
+  .stay.feature .banner{min-height:100%}
+  .cap{position:absolute;left:14px;bottom:12px;z-index:2;color:#fff;font-family:'Fraunces',serif;font-size:.9rem;letter-spacing:.02em;text-shadow:0 1px 8px rgba(8,43,50,.5)}
+  .stay-body{padding:22px 24px 26px}
+  .stay-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .stay h3{font-size:1.45rem;font-weight:600}
+  .place-sub{font-size:.82rem;color:var(--ink-soft);margin-top:2px}
+  .rating{flex:0 0 auto;font-size:.8rem;font-weight:700;color:var(--sea);background:rgba(31,179,166,.12);border:1px solid rgba(31,179,166,.28);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .best{display:inline-block;margin-top:14px;font-size:.76rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--coral)}
+  .stay p.desc{margin-top:12px;color:var(--ink-soft);font-size:.96rem}
+  .feats{list-style:none;margin-top:16px;display:grid;gap:9px}
+  .feats li{display:flex;gap:10px;font-size:.92rem;align-items:flex-start}
+  .feats li::before{content:"";flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--lagoon);margin-top:8px}
+  .aside{margin-top:24px;background:var(--sand);border-radius:16px;padding:18px 22px;font-size:.92rem;color:var(--ink-soft)}
+  .aside b{color:var(--ink)}
+
+  .acts{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  @media(max-width:780px){.acts{grid-template-columns:1fr}}
+  .act{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+  .act .banner{height:210px}
+  .act-body{padding:22px 24px 24px}
+  .act .tag{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lagoon)}
+  .act h3{font-size:1.35rem;margin:8px 0 6px;font-weight:600}
+  .act p{color:var(--ink-soft);font-size:.95rem}
+  .act .note{margin-top:12px;font-size:.84rem;color:var(--sea);font-weight:600}
+  .more{background:linear-gradient(135deg,#0c3f49,#0f5258);color:#eafaf8;border-radius:20px;padding:26px 28px}
+  .more h3{color:#fff;font-size:1.35rem;margin-bottom:14px;font-weight:600}
+  .more ul{list-style:none;display:grid;gap:12px}
+  .more li{font-size:.94rem;color:rgba(234,250,248,.9)}
+  .more li b{color:#fff;font-weight:700}
+
+  .week{margin-top:30px}
+  .day{display:grid;grid-template-columns:64px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+  .day:first-child{border-top:0}
+  .day .n{font-family:'Fraunces',serif;font-size:1.02rem;font-weight:600;color:var(--lagoon);border:1.5px solid var(--lagoon);border-radius:12px;height:54px;display:grid;place-items:center;line-height:1.1;text-align:center}
+  .day h4{font-size:1.1rem;font-weight:600;font-family:'Fraunces',serif}
+  .day p{font-size:.93rem;color:var(--ink-soft);margin-top:3px}
+
+  .getting{background:var(--sea);color:#eafaf8}
+  .getting .inner{max-width:var(--maxw);margin:0 auto;padding:64px 22px}
+  .getting .sec-eyebrow{color:var(--lagoon-soft)}.getting .sec-eyebrow::before{background:var(--lagoon-soft)}
+  .getting h2{color:#fff}.getting .lede{color:rgba(234,250,248,.85)}
+  .legs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  @media(max-width:720px){.legs{grid-template-columns:1fr}}
+  .leg{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px}
+  .leg .h{font-family:'Fraunces',serif;font-size:1.18rem;color:#fff;margin-bottom:6px}
+  .leg p{font-size:.92rem;color:rgba(234,250,248,.82)}
+
+  footer{max-width:var(--maxw);margin:0 auto;padding:56px 22px 80px;text-align:center}
+  footer .big{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4.5vw,2.4rem);font-weight:500;letter-spacing:-.01em}
+  footer p{color:var(--ink-soft);margin-top:14px;max-width:50ch;margin-inline:auto;font-size:.96rem}
+  footer .sign{margin-top:26px;font-size:.82rem;color:var(--ink-soft);letter-spacing:.04em}
+
+  @media(prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.in{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SVG SCENE LIBRARY ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe9ec"/><stop offset="1" stop-color="#f0f8f2"/></linearGradient>
+    <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa5a0"/><stop offset="1" stop-color="#0c3f49"/></linearGradient>
+    <linearGradient id="lagG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fe0d3"/><stop offset="1" stop-color="#26b6ab"/></linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe7b0"/><stop offset="1" stop-color="#f5b65a"/></radialGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbb997"/><stop offset="1" stop-color="#8f7351"/></linearGradient>
+    <linearGradient id="rock2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8a47f"/><stop offset="1" stop-color="#6f5839"/></linearGradient>
+
+    <!-- LAGOON (hero / oludeniz) -->
+    <symbol id="scene-lagoon" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice">
+      <rect width="480" height="300" fill="url(#sky)"/>
+      <circle cx="392" cy="66" r="30" fill="url(#sun)"/>
+      <path d="M0 120 L70 92 130 116 200 86 270 112 340 90 410 112 480 96 480 150 0 150 Z" fill="#9fc9c4" opacity=".55"/>
+      <path d="M0 132 L60 112 140 134 220 108 300 130 380 110 480 128 480 170 0 170 Z" fill="#6faea7" opacity=".5"/>
+      <rect y="150" width="480" height="150" fill="url(#seaG)"/>
+      <path d="M0 168 C120 150 360 150 480 168 L480 300 0 300 Z" fill="#157d7a" opacity=".55"/>
+      <path d="M150 196 C210 176 300 178 352 200 C320 236 220 240 178 222 C162 214 150 206 150 196 Z" fill="url(#lagG)"/>
+      <path d="M118 300 C150 232 250 214 372 232 C430 240 470 262 480 300 Z" fill="#e9dcbe"/>
+      <path d="M0 300 C30 268 96 250 150 256 L150 300 Z" fill="#1e6e57"/>
+      <path d="M392 150 C420 158 452 176 480 206 L480 150 Z" fill="#1e6e57"/>
+      <g stroke="#fff" stroke-width="2.4" opacity=".85"><path d="M330 60 q14 -10 28 0" fill="none"/></g>
+      <path d="M344 60 L350 84" stroke="#fff" stroke-width="1.4" opacity=".7"/>
+      <circle cx="350" cy="86" r="2.4" fill="#143" />
+      <path d="M96 214 l10 -16 2 16 z" fill="#fff" opacity=".95"/>
+    </symbol>
+
+    <!-- BEACH -->
+    <symbol id="scene-beach" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="280" fill="url(#sky)"/>
+      <circle cx="320" cy="58" r="24" fill="url(#sun)"/>
+      <path d="M0 96 L80 78 170 98 260 76 340 96 400 84 400 130 0 130 Z" fill="#9fc9c4" opacity=".5"/>
+      <rect y="118" width="400" height="92" fill="url(#lagG)"/>
+      <path d="M0 150 q100 14 200 0 t200 0 v60 H0 Z" fill="#1c9b96" opacity=".5"/>
+      <rect y="196" width="400" height="84" fill="#ecdfc0"/>
+      <g>
+        <path d="M70 196 l24 -34 24 34 z" fill="#e8714c"/><rect x="90" y="196" width="4" height="0" /><line x1="92" y1="162" x2="92" y2="208" stroke="#7a5a3a" stroke-width="3"/>
+        <path d="M150 198 l24 -34 24 34 z" fill="#1fb3a6"/><line x1="172" y1="164" x2="172" y2="210" stroke="#7a5a3a" stroke-width="3"/>
+        <path d="M236 198 l24 -34 24 34 z" fill="#0c3f49"/><line x1="258" y1="164" x2="258" y2="210" stroke="#7a5a3a" stroke-width="3"/>
+      </g>
+      <ellipse cx="110" cy="232" rx="22" ry="5" fill="#d8c79f"/><ellipse cx="200" cy="244" rx="24" ry="5" fill="#d8c79f"/><ellipse cx="296" cy="232" rx="22" ry="5" fill="#d8c79f"/>
+    </symbol>
+
+    <!-- BOAT BAY (gocek) -->
+    <symbol id="scene-boat" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="280" fill="url(#sky)"/>
+      <circle cx="64" cy="56" r="22" fill="url(#sun)"/>
+      <path d="M0 120 C40 60 110 56 140 120 Z" fill="#1e6e57"/>
+      <path d="M0 120 C30 78 96 74 120 120 Z" fill="#277F3C" opacity=".9"/>
+      <path d="M400 120 C360 54 286 52 250 120 Z" fill="#1e6e57"/>
+      <path d="M400 120 C372 80 300 76 276 120 Z" fill="#277F3C" opacity=".9"/>
+      <rect y="118" width="400" height="162" fill="url(#seaG)"/>
+      <path d="M0 140 C120 122 280 122 400 140 L400 180 0 180 Z" fill="#1aa39c" opacity=".5"/>
+      <!-- gulet -->
+      <g>
+        <path d="M150 176 q50 26 100 0 l-12 16 q-38 14 -76 0 z" fill="#5b3a24"/>
+        <rect x="196" y="120" width="3" height="56" fill="#3f2a1a"/>
+        <rect x="236" y="128" width="3" height="48" fill="#3f2a1a"/>
+        <path d="M199 124 L228 170 199 170 Z" fill="#fdfbf4"/>
+        <path d="M239 132 L262 170 239 170 Z" fill="#eef4ee"/>
+      </g>
+      <circle cx="120" cy="186" r="4" fill="#e8714c"/>
+      <path d="M150 196 q50 14 100 0" stroke="#fff" stroke-width="1.6" fill="none" opacity=".5"/>
+    </symbol>
+
+    <!-- GORGE (saklikent) -->
+    <symbol id="scene-gorge" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="280" fill="#bfe9ec"/>
+      <path d="M0 0 L168 0 C150 60 158 130 120 200 C92 250 40 268 0 274 Z" fill="url(#rock)"/>
+      <path d="M400 0 L236 0 C250 56 244 128 286 196 C312 244 360 266 400 272 Z" fill="url(#rock2)"/>
+      <path d="M168 0 C156 70 168 150 150 220 L250 220 C236 150 248 70 236 0 Z" fill="#0c3f49"/>
+      <path d="M170 220 C190 210 214 210 234 220 L240 280 162 280 Z" fill="url(#lagG)"/>
+      <path d="M120 60 q26 8 0 18 M132 110 q26 8 0 18 M120 150 q24 8 0 16" stroke="#8f7351" stroke-width="2" fill="none" opacity=".5"/>
+      <path d="M286 70 q-26 8 0 18 M276 120 q-26 8 0 18" stroke="#5f4a30" stroke-width="2" fill="none" opacity=".5"/>
+      <rect x="176" y="214" width="52" height="6" rx="2" fill="#6b4a2c"/>
+    </symbol>
+
+    <!-- VILLA + POOL -->
+    <symbol id="scene-villa" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="280" fill="url(#sky)"/>
+      <circle cx="330" cy="54" r="22" fill="url(#sun)"/>
+      <rect y="92" width="400" height="64" fill="url(#seaG)"/>
+      <path d="M0 110 C120 96 280 96 400 110 L400 150 0 150 Z" fill="#1aa39c" opacity=".45"/>
+      <path d="M0 92 C40 72 90 74 120 92 Z" fill="#1e6e57"/>
+      <path d="M400 92 C360 70 306 72 280 92 Z" fill="#1e6e57"/>
+      <!-- villa -->
+      <rect x="60" y="120" width="150" height="56" fill="#fbf8f1"/>
+      <rect x="60" y="120" width="150" height="10" fill="#e6ddca"/>
+      <rect x="78" y="136" width="26" height="34" fill="#bfe2e0"/>
+      <rect x="120" y="136" width="30" height="34" fill="#a9d6d3"/>
+      <rect x="166" y="136" width="26" height="34" fill="#bfe2e0"/>
+      <!-- infinity pool -->
+      <path d="M40 176 L360 176 L340 250 L60 250 Z" fill="#dfeae8"/>
+      <path d="M60 186 L340 186 L324 240 L76 240 Z" fill="url(#lagG)"/>
+      <g stroke="#fff" stroke-width="1.4" opacity=".5"><path d="M90 206 h220 M86 220 h228"/></g>
+      <rect x="246" y="196" width="40" height="8" rx="3" fill="#e8c98c"/>
+      <rect x="296" y="196" width="40" height="8" rx="3" fill="#e8c98c"/>
+    </symbol>
+
+    <!-- COVE (hillside) -->
+    <symbol id="scene-cove" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="280" fill="url(#sky)"/>
+      <circle cx="300" cy="52" r="22" fill="url(#sun)"/>
+      <path d="M0 70 C60 30 150 34 180 86 L0 120 Z" fill="#1e6e57"/>
+      <path d="M400 64 C330 26 250 34 220 92 L400 120 Z" fill="#216a4f"/>
+      <path d="M180 86 C150 70 110 74 80 96" stroke="#277F3C" stroke-width="0" fill="none"/>
+      <rect y="104" width="400" height="176" fill="url(#seaG)"/>
+      <path d="M120 150 C170 130 250 130 300 152 C262 188 168 190 132 168 Z" fill="url(#lagG)"/>
+      <path d="M70 280 C120 220 290 220 340 280 Z" fill="#ecdfc0"/>
+      <ellipse cx="150" cy="252" rx="16" ry="4" fill="#d8c79f"/><ellipse cx="210" cy="258" rx="16" ry="4" fill="#d8c79f"/><ellipse cx="270" cy="252" rx="16" ry="4" fill="#d8c79f"/>
+      <g><path d="M196 150 q22 12 44 0 l-6 9 q-16 7 -32 0 z" fill="#5b3a24"/><rect x="216" y="118" width="2.4" height="32" fill="#3f2a1a"/><path d="M218 122 L236 146 218 146 Z" fill="#fff"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>Turquoise Coast</div>
+    <div class="nav-links">
+      <a href="#stays">Where to stay</a><a href="#do">Things to do</a><a href="#week">The week</a><a href="#there">Getting there</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="bg"><svg class="scene" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice"><use href="#scene-lagoon"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZNgXuWMOkyOWwXLJ7wS7qqp7ls02T7Q9lUgvWi_qy6KKM0kHFW9IVZnLDOXII5hchFg3TL7D1V927ACMMZ97Cv2Qbh0GncZ65MYwatiUlWXQRH53JbXiLr-QeRYDbFKAv0PAHDmnrvVJgGG7Hc=w1600" alt="Ölüdeniz Blue Lagoon" onerror="this.remove()"></div>
+  <div class="hero-inner">
+    <span class="eyebrow">A trip for the four of us</span>
+    <h1>The <em>Turquoise</em><br>Coast</h1>
+    <p>Seven nights on Turkey's southwest shore — calm blue water and pine mountains in equal measure, and one of the shortest, gentlest flights from Bahrain.</p>
+    <div class="hero-meta">
+      <span class="chip">📅 Late July – mid August</span>
+      <span class="chip">🌙 6–7 nights</span>
+      <span class="chip">👨‍👩‍👧‍👧 Family of four</span>
+      <span class="chip">✈️ Fethiye · Göcek</span>
+    </div>
+  </div>
+</header>
+
+<svg class="shore" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 20 C 150 6, 300 34, 450 20 S 750 6, 900 20 1050 20 1200 14 1200 14 L1200 34 L0 34 Z" fill="currentColor" opacity=".14"/>
+  <path d="M0 24 C 160 12, 320 34, 480 24 S 800 12, 960 24 1120 24 1200 20 1200 20 L1200 34 L0 34 Z" fill="currentColor" opacity=".22"/>
+</svg>
+
+<!-- WHY HERE -->
+<section class="reveal">
+  <div class="sec-head">
+    <span class="sec-eyebrow">Why here</span>
+    <h2>The relaxing mix you wanted — coast on one side, nature on the other</h2>
+    <p class="lede">The Fethiye–Göcek stretch is the gentlest corner of Turkey's coast: warm, swimmable turquoise bays, with pine-clad mountains, lagoons and gorges all within an easy drive. Calm enough to do nothing, varied enough that the girls never get bored.</p>
+  </div>
+
+  <div class="reassure">
+    <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7fd6cd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.4.9l4.8 4-2.5 2.5-2-.5a.5.5 0 0 0-.5.9l2.5 1.6L9.4 19a.5.5 0 0 0 .9-.5l-.5-2 2.5-2.5 4 4.8a.5.5 0 0 0 .9-.4z"/></svg></div>
+    <div>
+      <h3>About the flying part</h3>
+      <p>You reach this coast through Dalaman airport — usually two shorter hops with one connection rather than one long haul. The final descent runs in along the calm Mediterranean shoreline, which tends to be one of the smoother approaches. We can choose the routing with the fewest, steadiest legs.</p>
+    </div>
+  </div>
+
+  <div class="glance">
+    <div class="gcard"><div class="k">~4h</div><div class="l">flying time, in two easy legs via one connection</div></div>
+    <div class="gcard"><div class="k">~32°C</div><div class="l">August days — hot, dry and sunny, sea around 27°C</div></div>
+    <div class="gcard"><div class="k">30 min</div><div class="l">from Dalaman airport to Göcek by car</div></div>
+    <div class="gcard"><div class="k">5+</div><div class="l">easy day trips: lagoon, gorge, boat bays &amp; more</div></div>
+  </div>
+</section>
+
+<!-- STAYS -->
+<section id="stays" class="reveal">
+  <div class="sec-head">
+    <span class="sec-eyebrow">Where to stay</span>
+    <h2>Two ways to do it</h2>
+    <p class="lede">A full-service resort where the kids' clubs and beach do the work for you — or your own private villa with a pool, total privacy and family space. Tap to switch between them.</p>
+  </div>
+
+  <div class="toggle" role="tablist">
+    <button id="t-resort" class="on" onclick="setLane('resort')">🏖 Family resort</button>
+    <button id="t-villa" onclick="setLane('villa')">🏡 Private villa</button>
+  </div>
+
+  <!-- RESORT LANE -->
+  <div id="lane-resort" class="lane show">
+    <div class="stays">
+      <article class="stay feature">
+        <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-cove"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZO0_lLG7mrzVzERwqTkUNyezlRRO9tyj81Bhx8msjV2dZSttxJwMksTg1Rigt9zSF_9jww8pcnzkpkKuGy3Q79PKmkxYV0QDwbjR5AAMkuq45qDv5_CaEak0QLP6npg9aS8UCxnf6zChFfMX08=w1280" alt="Hillside Beach Club cove" onerror="this.remove()"><span class="cap">Kalemya Cove, Fethiye</span></div>
+        <div class="stay-body">
+          <div class="stay-top">
+            <div><h3>Hillside Beach Club</h3><div class="place-sub">Kalemya Cove, Fethiye</div></div>
+            <span class="rating">★ 4.6 · 2,000+ reviews</span>
+          </div>
+          <span class="best">Our top pick for the family</span>
+          <p class="desc">A self-contained resort wrapped around its own private pine cove, with calm swimming bays and a famously relaxed feel. The kind of place where the girls are happily busy and you two can genuinely switch off — many guests come back year after year.</p>
+          <ul class="feats">
+            <li>Three separate bays, including a quiet adults' bay and a dedicated kids' bay with shallow, calm water</li>
+            <li>Kids' Club and a teens' programme — both daughters looked after</li>
+            <li>Watersports off the beach: kayaks, paddleboards, sailing, snorkelling</li>
+            <li>Seaside spa, morning yoga, and a free boat to a secluded cove</li>
+            <li>Evening shows and open-air cinema; relaxed all-day dining</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="stay">
+        <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-boat"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZNDUDk9Tz_79Pf4fsh_p_-nJ73QKzcwdD7gevB-5KARnG_Uq8ZZbsbQBhn5w6dK9zIFpwwiA4wkw3KMh-T7YB_QA-e-kHkPrg-zobW4dttYZ61b3lFIAJVKc_FfKt4YvHnANY5QtvcfpFQ4TA=w1280" alt="D-Resort Göcek" onerror="this.remove()"><span class="cap">Göcek marina &amp; bays</span></div>
+        <div class="stay-body">
+          <div class="stay-top">
+            <div><h3>D-Resort Göcek</h3><div class="place-sub">Göcek marina village</div></div>
+            <span class="rating">★ 4.7</span>
+          </div>
+          <span class="best">Best for village life</span>
+          <p class="desc">A polished resort right on Göcek's pretty marina, with a private beach of very blue water and buggy service around the grounds. Step out into the village for cafés and the gulet boats — the easiest base for a bay-hopping boat day.</p>
+          <ul class="feats">
+            <li>Private beach and calm, well-kept pool</li>
+            <li>Walk straight into Göcek village and marina</li>
+            <li>Spa and family-friendly service</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="stay">
+        <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-beach"/></svg><span class="cap">Çiftlik beach, Fethiye</span></div>
+        <div class="stay-body">
+          <div class="stay-top">
+            <div><h3>Akra Fethiye (TUI Blue Sensatori)</h3><div class="place-sub">Çiftlik, Fethiye</div></div>
+            <span class="rating">★ 4.7 · 2,500+ reviews</span>
+          </div>
+          <span class="best">Best for the girls' fun-factor</span>
+          <p class="desc">If the daughters want waterslides and pools, this is the one — a bigger all-inclusive resort with a family pool, slides, a beach and several à-la-carte restaurants, plus a quieter adults' area for you two.</p>
+          <ul class="feats">
+            <li>Family pool with slides and a kids' club</li>
+            <li>All-inclusive ease — drinks and dining sorted</li>
+            <li>Spacious family rooms</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <div class="aside"><b>One to skip this time:</b> Rixos Premium Göcek is stunning but <b>adults-only</b> — keep it in mind for a couples-only return trip rather than this family one.</div>
+  </div>
+
+  <!-- VILLA LANE -->
+  <div id="lane-villa" class="lane">
+    <div class="stays">
+      <article class="stay">
+        <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-villa"/></svg><span class="cap">Kalkan hillside villa</span></div>
+        <div class="stay-body">
+          <div class="stay-top"><div><h3>Kalkan — sea-view villas</h3><div class="place-sub">Hillside above the old harbour</div></div></div>
+          <span class="best">Best for views &amp; privacy</span>
+          <p class="desc">Kalkan is the coast's villa capital: white houses stacked up a hillside, most with their own private infinity pool looking out over the sea. Evenings are made for the harbour's rooftop restaurants, and beach clubs are a short hop by boat or taxi.</p>
+          <ul class="feats">
+            <li>Your own private pool and full family space — cook in or eat out</li>
+            <li>Walkable old town with dozens of rooftop restaurants</li>
+            <li>Beach clubs and swim platforms reached by short boat taxi</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="stay">
+        <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-cove"/></svg><span class="cap">Göcek / Fethiye pine hills</span></div>
+        <div class="stay-body">
+          <div class="stay-top"><div><h3>Göcek / Fethiye hillsides</h3><div class="place-sub">Pine-clad, close to the marinas</div></div></div>
+          <span class="best">Best for a calmer base</span>
+          <p class="desc">Quieter, greener villa country tucked into the pines around Göcek and Fethiye — handy for marinas and boat days, and a short drive from Ölüdeniz and the gorge. Ideal if you'd rather have a peaceful private base and explore by car.</p>
+          <ul class="feats">
+            <li>Private pool, gardens and BBQ — relaxed family evenings in</li>
+            <li>Minutes from Göcek's boats and bays</li>
+            <li>Central for every day trip on the list</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <div class="aside"><b>How to book a villa:</b> the simplest routes for private-pool family villas are specialists like <b>Exclusive Escapes</b> or <b>Olives &amp; Vines</b>, or <b>Airbnb</b> filtered for "private pool." Pair it with a hire car so the lagoon, gorge and restaurants are all easy. August books up early, so it's worth securing soon.</div>
+  </div>
+</section>
+
+<!-- THINGS TO DO -->
+<section id="do" class="reveal">
+  <div class="sec-head">
+    <span class="sec-eyebrow">Things to do</span>
+    <h2>The days you'll remember</h2>
+    <p class="lede">A handful of easy, family-friendly outings — most a short drive or boat ride from base. Pick a few; leave plenty of days for the pool.</p>
+  </div>
+  <div class="acts">
+    <article class="act">
+      <div class="banner"><svg class="scene" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice"><use href="#scene-lagoon"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZPefjAIe2Tus0Y1is7u1Rxd0evXRCm_fvZcRiDqDJGI1abm23Gd6n-1oAxXiBybigFl-xsWom6HS1rjDrIHFpvSKNVk31XZYqccEY_j7nTsi2aTKg1UVPzd-Q855A6uEW5qtkTfWOa6RGF1=w1280" alt="Ölüdeniz lagoon" onerror="this.remove()"></div>
+      <div class="act-body">
+        <div class="tag">Swim · half day</div>
+        <h3>Ölüdeniz Blue Lagoon</h3>
+        <p>The postcard one: a calm, protected turquoise lagoon with shallow, safe water — ideal for the girls — plus sunbeds, pedalos and a long beach. Overhead, paragliders drift down from Babadağ mountain and land on the sand, which kids love to watch.</p>
+        <div class="note">Go in the morning before it warms up and fills out.</div>
+      </div>
+    </article>
+
+    <article class="act">
+      <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-boat"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZNwOfo5qvV18dAKaKnEzhfH218OjgpEKKOKLP99BX1jwNqWV5sNA_D5IXyCGjLmpb10-PnafARtpmZ0T3yS0QUTzPBo2VqDZX8UWo5VKVMV0KS8ZmjJ8TCYxNYVI87i3csZvrj7yclE_Uz3xg=w1280" alt="Göcek bay" onerror="this.remove()"></div>
+      <div class="act-body">
+        <div class="tag">Boat · full day</div>
+        <h3>A boat day around Göcek's bays</h3>
+        <p>Hire a private gulet for the day and drift between swimming-only coves — Bedri Rahmi bay with its painted rock, Cleopatra's Hammam, and pine-fringed Tersane island. Swim straight off the boat, lunch on board, no crowds.</p>
+        <div class="note">A private boat means you set the pace and the swim stops.</div>
+      </div>
+    </article>
+
+    <article class="act">
+      <div class="banner"><svg class="scene" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice"><use href="#scene-gorge"/></svg><img class="photo" src="https://lh3.googleusercontent.com/place-photos/AJRVUZO1-jUkGUPOgeKZYeybi46UOYPOaQ9PpA2I0dacr_bJNlXzBhSJdTPPNLVldWpYePWbNzN5m_QxFUrHvz_phFLAiCuQu9QJaNuBujY2yJyIgFEww07QnugbHl0354NPASN2FXQ1H8THsVDS2w=w1280" alt="Saklıkent Gorge" onerror="this.remove()"></div>
+      <div class="act-body">
+        <div class="tag">Nature · half day</div>
+        <h3>Saklıkent Gorge</h3>
+        <p>A dramatic, narrow canyon you wade into through icy mountain water — wonderfully refreshing on a hot day. Restaurants sit on wooden platforms right over the river. Bring water shoes; the cold water is the whole point.</p>
+        <div class="note">The natural air-conditioning day — pair it with a riverside lunch.</div>
+      </div>
+    </article>
+
+    <div class="more">
+      <h3>More family day trips</h3>
+      <ul>
+        <li><b>Dalyan &amp; Iztuzu Turtle Beach</b> — a gentle river-boat through reed channels, mud baths, and a long beach where loggerhead turtles nest.</li>
+        <li><b>Butterfly Valley</b> — a short boat trip to a hidden valley beach ringed by cliffs.</li>
+        <li><b>Kayaköy ghost village</b> — an easy wander through a hillside of stone houses, right by Hillside.</li>
+        <li><b>Watch the paragliders</b> at Ölüdeniz — tandem flights for the brave; a great show for everyone else.</li>
+        <li><b>Tlos &amp; Yakapark</b> — Lycian hillside ruins and a spring-fed trout restaurant up in the cool mountains.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- THE WEEK -->
+<section id="week" class="reveal">
+  <div class="sec-head">
+    <span class="sec-eyebrow">The week</span>
+    <h2>A relaxed 7-night rhythm</h2>
+    <p class="lede">Loose on purpose — busy days and pool days alternate, so no one's worn out. Easy to reshuffle around the weather and everyone's mood.</p>
+  </div>
+  <div class="week">
+    <div class="day"><div class="n">Day 1</div><div><h4>Arrive &amp; settle</h4><p>Land at Dalaman, transfer to base, unpack and ease in with a first swim and dinner.</p></div></div>
+    <div class="day"><div class="n">Day 2</div><div><h4>Pure beach &amp; pool</h4><p>No agenda — settle into the place, find your spots, let the girls loose in the water.</p></div></div>
+    <div class="day"><div class="n">Day 3</div><div><h4>Göcek bays by boat</h4><p>A full day on a private gulet, swimming between quiet coves with lunch on board.</p></div></div>
+    <div class="day"><div class="n">Day 4</div><div><h4>Ölüdeniz lagoon</h4><p>Morning at the Blue Lagoon, paraglider-watching, then back for an afternoon rest.</p></div></div>
+    <div class="day"><div class="n">Day 5</div><div><h4>Slow day &amp; spa</h4><p>Lie low — spa, a long lunch, a wander through Göcek or Kalkan in the evening.</p></div></div>
+    <div class="day"><div class="n">Day 6</div><div><h4>Saklıkent Gorge</h4><p>Cool off in the canyon and riverside lunch — or swap in the Dalyan turtle-beach trip.</p></div></div>
+    <div class="day"><div class="n">Day 7</div><div><h4>Last beach day</h4><p>One more lazy day by the water, a final dinner, and an early pack.</p></div></div>
+    <div class="day"><div class="n">Day 8</div><div><h4>Fly home</h4><p>Transfer to Dalaman and the easy two-leg hop back to Bahrain.</p></div></div>
+  </div>
+</section>
+
+<!-- GETTING THERE -->
+<section class="getting">
+  <div class="inner reveal">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Getting there</span>
+      <h2>Short, scenic, and over the sea</h2>
+      <p class="lede">The whole region is served by Dalaman airport — close to Göcek and Fethiye, with a calm coastal approach to land on.</p>
+    </div>
+    <div class="legs">
+      <div class="leg"><div class="h">Two easy legs</div><p>From Bahrain you'll typically connect once (commonly via Istanbul) before the short final hop to Dalaman — two manageable flights instead of one long one. We'll pick the routing with the fewest, steadiest segments and best timings.</p></div>
+      <div class="leg"><div class="h">Then 30 minutes</div><p>Dalaman (DLM) sits about 30 minutes from Göcek and roughly 45 from Fethiye. A private car transfer through the hotel or villa makes the door-to-door part effortless.</p></div>
+      <div class="leg"><div class="h">Best window</div><p>Late July to mid-August is hot, dry and sunny, with warm, calm sea — peak beach weather. It's also peak season, so the best villas and rooms go early.</p></div>
+      <div class="leg"><div class="h">The gentle landing</div><p>The descent into Dalaman tracks the coastline rather than crossing mountains — usually one of the smoother approaches, which helps if the flying part is the nervy bit.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="reveal">
+  <div class="big">So — resort or villa?</div>
+  <p>Have a look through, see what catches your eye, and we'll lock in the dates and start checking flights and availability for August.</p>
+  <div class="sign">Turquoise Coast · a 7-night family proposal</div>
+</footer>
+
+<script>
+  function setLane(which){
+    document.getElementById('lane-resort').classList.toggle('show', which==='resort');
+    document.getElementById('lane-villa').classList.toggle('show', which==='villa');
+    document.getElementById('t-resort').classList.toggle('on', which==='resort');
+    document.getElementById('t-villa').classList.toggle('on', which==='villa');
+  }
+  const io=new IntersectionObserver((ents)=>{ents.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
